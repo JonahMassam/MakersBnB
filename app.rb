@@ -1,16 +1,10 @@
 require "sinatra"
-require 'sinatra/reloader' if development?
 require "pg"
-
 
 class MakersBnB < Sinatra::Base
 
-  configure :development do
-    register Sinatra::Reloader
-  end
-
   get '/' do
-    'test page'
+    erb :index
   end
 
   get "/create_new_space" do
