@@ -11,5 +11,7 @@ end
 
 def get_test_database_data
   connection = PG.connect(dbname: 'makersbnb_test')
-  result = connection.exec('SELECT * FROM spaces')
+  result = connection.exec('SELECT name FROM spaces')
+  result.map { |res| res  }
+  puts result
 end

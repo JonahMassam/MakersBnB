@@ -1,11 +1,12 @@
 require "test_database"
+require 'capybara'
+require 'capybara/rspec'
 
 ENV['RACK_ENV'] = 'test'
 
 require File.join(File.dirname(__FILE__), '..', 'app.rb')
 Capybara.app = MakersBnB
 
-require 'capybara/rspec'
 
 
 
