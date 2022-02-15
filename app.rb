@@ -7,6 +7,10 @@ class MakersBnB < Sinatra::Base
     erb :index
   end
 
+  get "/register" do
+    erb :register
+  end
+
   get "/create_new_space" do
     erb :create_new_space
   end
