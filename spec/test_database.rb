@@ -1,16 +1,25 @@
 def reset_test_database
   connection = PG.connect(dbname: 'makersbnb_test')
   connection.exec('TRUNCATE TABLE spaces')
+  connection.exec('TRUNCATE TABLE users')
 end
 
 def seed_test_database
   connection = PG.connect(dbname: 'makersbnb_test')
   connection.exec("INSERT INTO spaces (name, users_ref) values ('Space1', 0);")
   connection.exec("INSERT INTO spaces (name, users_ref) values ('Space2', 0);")
+  connection.exec("INSERT INTO users (name) values ('User1');")
+  connection.exec("INSERT INTO users (name) values ('User2');")
 end
 
 def get_test_database_data
   connection = PG.connect(dbname: 'makersbnb_test')
   result = connection.exec('SELECT name FROM spaces')
   result = result.map { |dict| dict["name"] }
+end
+
+def get_registered_users
+  connection = PG.connect(dbname: 'makersbnb_test')
+  result = connection.exec('SELECT name FROM users')
+  result = result.map { |hash| hash["name"] }
 end
