@@ -18,5 +18,13 @@ class MakersBnB < Sinatra::Base
     'test page'
   end
 
+  get "/create_new_space" do
+    erb :create_new_space
+  end
+
+  post "/submit_new_space" do
+    puts "hi"
+  end
+
   run! if app_file == $0
 end
