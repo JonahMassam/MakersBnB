@@ -56,7 +56,7 @@ class MakersBnB < Sinatra::Base
     connection = db_connection()
     results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
     @user_spaces = results.field_values("name") # ["space1", "space2", ...]
-    p @user_spaces
+    @user_description = results.field_values("description")
     erb :user_home_page
   end
 
