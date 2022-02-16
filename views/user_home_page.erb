@@ -6,10 +6,10 @@ Current spaces:
 <% if @user_spaces %>
   <ul>
 
-    <% @user_spaces.each do |element| %>
+    <% @user_spaces.each_with_index do |element, i| %>
       <li><%= element%></li>
+      <li><%= @user_description[i]%></li>
     <% end %>
 
   </ul>
-
-<% end %>
+  <% end %>
