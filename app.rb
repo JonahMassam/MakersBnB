@@ -5,10 +5,8 @@ class MakersBnB < Sinatra::Base
 
   def db_connection()
     if ENV['RACK_ENV'] == 'test'
-      puts "Connecting to test database"
       PG.connect(dbname: 'makersbnb_test')
     else
-      puts "Connecting to main database"
       PG.connect(dbname: 'makersbnb')
     end
   end
@@ -24,7 +22,11 @@ class MakersBnB < Sinatra::Base
   post "/register_new_user" do
     user_name = params[:user_name]
     connection = db_connection()
-    connection.exec("INSERT INTO users (name) VALUES ('#{user_name}');")
+    results = connection.exec("SELECT * FROM users WHERE name = '#{user_name}' ")
+    #if ntuples is 0 then there are no entries in the table
+    if results.ntuples == 0
+      connection.exec("INSERT INTO users (name) VALUES ('#{user_name}');")
+    end
     redirect "/user_home_page"
   end
 
@@ -36,9 +38,11 @@ class MakersBnB < Sinatra::Base
     user_name = params[:user_name]
     connection = db_connection()
     results = connection.exec("SELECT * FROM users WHERE name = '#{user_name}' ")
-    p results
-    results.each {|result| puts result}
-    redirect "/user_home_page"
+    if results.ntuples == 1
+      redirect "/user_home_page"
+    else
+      redirect "/login"
+    end
   end
 
   get "/user_home_page" do
@@ -58,4 +62,3 @@ class MakersBnB < Sinatra::Base
 
   run! if app_file == $0
 end
-
