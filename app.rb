@@ -3,6 +3,8 @@ require "pg"
 
 class MakersBnB < Sinatra::Base
 
+  enable :sessions
+
   def db_connection()
     if ENV['RACK_ENV'] == 'test'
       PG.connect(dbname: 'makersbnb_test')
@@ -27,10 +29,11 @@ class MakersBnB < Sinatra::Base
     if results.ntuples == 0
       connection.exec("INSERT INTO users (name) VALUES ('#{user_name}');")
     end
-    redirect "/user_home_page"
+    redirect "/login"
   end
 
   get "/login" do
+    redirect "/user_home_page" if session[:name]
     erb :login
   end
 
@@ -39,6 +42,8 @@ class MakersBnB < Sinatra::Base
     connection = db_connection()
     results = connection.exec("SELECT * FROM users WHERE name = '#{user_name}' ")
     if results.ntuples == 1
+      session[:id] = results.field_values("id")[0].to_i
+      session[:name] = results.field_values("name")[0]
       redirect "/user_home_page"
     else
       redirect "/login"
@@ -46,17 +51,19 @@ class MakersBnB < Sinatra::Base
   end
 
   get "/user_home_page" do
-    "Hello User"
+    "Hello #{session[:name]}"
   end
 
   get "/create_new_space" do
+    redirect "/login" unless session[:name]
     erb :create_new_space
   end
 
   post "/submit_new_space" do
     new_space_name = params[:new_space_name]
+    user_id = session[:id]
     connection = db_connection()
-    connection.exec("INSERT INTO spaces (name, users_ref) VALUES ('#{new_space_name}', 0);")
+    connection.exec("INSERT INTO spaces (name, users_ref) VALUES ('#{new_space_name}', #{user_id});")
     redirect "/"
   end
 
