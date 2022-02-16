@@ -12,4 +12,16 @@ feature 'new space page' do
     click_button("submit_button")
     expect(get_test_database_data).to include "Test Space"
   end
+
+  scenario "can add a description to a space" do
+    login_test_user
+    visit "/create_new_space"
+    fill_in("new_space_name", with: "Test Space")
+    fill_in("description", with: "Space details")
+    click_button("submit_button")
+    connection = PG.connect(dbname: 'makersbnb_test')
+    result = connection.exec('SELECT * FROM spaces')
+    descriptions = result.field_values("description")
+    expect(descriptions).to include "Space details"
+  end
 end

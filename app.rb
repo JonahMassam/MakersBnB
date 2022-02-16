@@ -67,9 +67,10 @@ class MakersBnB < Sinatra::Base
 
   post "/submit_new_space" do
     new_space_name = params[:new_space_name]
+    description = params[:description]
     user_id = session[:id]
     connection = db_connection()
-    connection.exec("INSERT INTO spaces (name, users_ref) VALUES ('#{new_space_name}', #{user_id});")
+    connection.exec("INSERT INTO spaces (name, users_ref, description) VALUES ('#{new_space_name}', #{user_id}, '#{description}');")
     redirect "/"
   end
 
