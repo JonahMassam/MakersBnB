@@ -24,4 +24,18 @@ feature 'new space page' do
     descriptions = result.field_values("description")
     expect(descriptions).to include "Space details"
   end
+
+  scenario "can add a price to a space" do
+    login_test_user
+    visit "/create_new_space"
+    fill_in("new_space_name", with: "Test Space")
+    fill_in("description", with: "Space details")
+    fill_in("price", with: "100")
+    click_button("submit_button")
+    connection = PG.connect(dbname: 'makersbnb_test')
+    result = connection.exec('SELECT * FROM spaces')
+    descriptions = result.field_values("price")
+    expect(descriptions).to include "100"
+  end
+
 end
