@@ -57,6 +57,7 @@ class MakersBnB < Sinatra::Base
     results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
     @user_spaces = results.field_values("name") # ["space1", "space2", ...]
     @user_description = results.field_values("description")
+    @user_price = results.field_values("price")
     erb :user_home_page
   end
 
@@ -68,9 +69,10 @@ class MakersBnB < Sinatra::Base
   post "/submit_new_space" do
     new_space_name = params[:new_space_name]
     description = params[:description]
+    price = params[:price]
     user_id = session[:id]
     connection = db_connection()
-    connection.exec("INSERT INTO spaces (name, users_ref, description) VALUES ('#{new_space_name}', #{user_id}, '#{description}');")
+    connection.exec("INSERT INTO spaces (name, users_ref, description, price) VALUES ('#{new_space_name}', #{user_id}, '#{description}', #{price});")
     redirect "/"
   end
 
