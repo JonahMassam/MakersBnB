@@ -18,6 +18,11 @@ class MakersBnB < Sinatra::Base
     redirect "/user_home_page"
   end
 
+  get "/login" do
+    erb :login
+  end
+
+
   get "/user_home_page" do
     "Hello User"
   end
