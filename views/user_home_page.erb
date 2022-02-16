@@ -1,0 +1,15 @@
+<h1>Hello <%= @username %></h1>
+
+
+Current spaces:
+
+<% if @user_spaces %>
+  <ul>
+
+    <% @user_spaces.each do |element| %>
+      <li><%= element%></li>
+    <% end %>
+
+  </ul>
+
+<% end %>

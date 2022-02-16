@@ -51,7 +51,13 @@ class MakersBnB < Sinatra::Base
   end
 
   get "/user_home_page" do
-    "Hello #{session[:name]}"
+    redirect "/login" unless session[:name]
+    @username = session[:name]
+    connection = db_connection()
+    results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
+    @user_spaces = results.field_values("name") # ["space1", "space2", ...]
+    p @user_spaces
+    erb :user_home_page
   end
 
   get "/create_new_space" do
