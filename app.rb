@@ -5,8 +5,10 @@ class MakersBnB < Sinatra::Base
 
   def db_connection()
     if ENV['RACK_ENV'] == 'test'
+      puts "Connecting to test database"
       PG.connect(dbname: 'makersbnb_test')
     else
+      puts "Connecting to main database"
       PG.connect(dbname: 'makersbnb')
     end
   end
@@ -30,6 +32,14 @@ class MakersBnB < Sinatra::Base
     erb :login
   end
 
+  post "/login_user" do
+    user_name = params[:user_name]
+    connection = db_connection()
+    results = connection.exec("SELECT * FROM users WHERE name = '#{user_name}' ")
+    p results
+    results.each {|result| puts result}
+    redirect "/user_home_page"
+  end
 
   get "/user_home_page" do
     "Hello User"

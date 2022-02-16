@@ -9,7 +9,6 @@ feature "enable to user to sign up" do
     click_link "Click here to register"
     fill_in("user_name", with: "Dave")
     click_button('Submit')
-
     expect(page).to have_content "Hello User"
   end
 end
