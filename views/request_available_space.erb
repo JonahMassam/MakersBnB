@@ -1,0 +1,15 @@
+Hello:
+<br>
+What date do you want?
+<br>
+<form action="/request_available_space" method="get">
+  <input type="text" name="request_date">
+  <input type="submit" name="submit">
+</form>
+
+
+<%if @dates %>
+  <% @dates.each_with_index do |element, i| %>
+    <li><%= element %></li><br>
+  <%end%>
+<%end%>

@@ -12,7 +12,7 @@ Current spaces:
       <li>£<%= @space_prices[i]%></li>
       <form action="/add_new_date" method="post">
         <input type="hidden" name="id" value = <%= @space_ids[i] %> >
-        <input type="text" name ="date">
+        <input type="text" name ="date" >
         <input type="submit" name="submit" > <br>
       </form>
       dates:
