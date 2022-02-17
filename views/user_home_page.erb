@@ -3,30 +3,22 @@
 
 Current spaces:
 
-<% if @user_spaces %>
+<% if @space_names %>
   <ul>
 
-    <% @user_spaces.each_with_index do |element, i| %>
+    <% @space_names.each_with_index do |element, i| %>
       <li><%= element%></li>
-      <li><%= @user_description[i]%></li>
-      <li>£<%= @user_price[i]%></li>
+      <li><%= @space_descriptions[i]%></li>
+      <li>£<%= @space_prices[i]%></li>
       <form action="/add_new_date" method="post">
         <input type="hidden" name="id" value = <%= @space_ids[i] %> >
         <input type="text" name ="date">
         <input type="submit" name="submit" > <br>
       </form>
-      dates:<br>
+      dates:
+      <li><%= @space_available[i]%></li><br>
       <br>
     <% end %>
 
   </ul>
 <% end %>
-
-
-#input box ####-##-##
-
-[2022-01-18, 2022-01-20]
-
-delete FROM spaces WHERE avalible has 2022-01-18
-                          [2022-01-18, 2022-01-20]
-

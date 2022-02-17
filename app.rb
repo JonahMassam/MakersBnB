@@ -56,9 +56,10 @@ class MakersBnB < Sinatra::Base
     connection = db_connection()
     results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
     @space_ids = results.field_values("id") 
-    @user_spaces = results.field_values("name") # ["space1", "space2", ...]
-    @user_description = results.field_values("description")
-    @user_price = results.field_values("price")
+    @space_names = results.field_values("name") # ["space1", "space2", ...]
+    @space_descriptions = results.field_values("description")
+    @space_prices = results.field_values("price")
+    @space_available = results.field_values("available")
     erb :user_home_page
   end
 
@@ -82,6 +83,7 @@ class MakersBnB < Sinatra::Base
     id = params[:id].to_i
     connection = db_connection()
     connection.exec("UPDATE spaces SET available = array_append(available, '#{new_date}') WHERE id = '#{id}';")
+    redirect "/user_home_page"
   end
   
 
