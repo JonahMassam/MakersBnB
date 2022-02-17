@@ -55,6 +55,7 @@ class MakersBnB < Sinatra::Base
     @username = session[:name]
     connection = db_connection()
     results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
+    @space_ids = results.field_values("id") 
     @user_spaces = results.field_values("name") # ["space1", "space2", ...]
     @user_description = results.field_values("description")
     @user_price = results.field_values("price")
@@ -75,6 +76,14 @@ class MakersBnB < Sinatra::Base
     connection.exec("INSERT INTO spaces (name, users_ref, description, price) VALUES ('#{new_space_name}', #{user_id}, '#{description}', #{price});")
     redirect "/"
   end
+
+  post "/add_new_date" do
+    new_date = params[:date]
+    id = params[:id].to_i
+    connection = db_connection()
+    connection.exec("UPDATE spaces SET available = array_append(available, '#{new_date}') WHERE id = '#{id}';")
+  end
+  
 
   run! if app_file == $0
 end

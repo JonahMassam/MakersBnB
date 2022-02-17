@@ -9,6 +9,8 @@ feature 'new space page' do
     login_test_user
     visit "/create_new_space"
     fill_in("new_space_name", with: "Test Space")
+    fill_in("description", with: "Test desc")
+    fill_in("price", with: "100")
     click_button("submit_button")
     expect(get_test_database_data).to include "Test Space"
   end
@@ -18,6 +20,7 @@ feature 'new space page' do
     visit "/create_new_space"
     fill_in("new_space_name", with: "Test Space")
     fill_in("description", with: "Space details")
+    fill_in("price", with: "100")
     click_button("submit_button")
     connection = PG.connect(dbname: 'makersbnb_test')
     result = connection.exec('SELECT * FROM spaces')
