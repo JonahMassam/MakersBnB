@@ -1,5 +1,6 @@
 require "sinatra"
 require "pg"
+require_relative "lib/space"
 
 class MakersBnB < Sinatra::Base
 
@@ -53,13 +54,8 @@ class MakersBnB < Sinatra::Base
   get "/user_home_page" do
     redirect "/login" unless session[:name]
     @username = session[:name]
-    connection = db_connection()
-    results = connection.exec("SELECT * FROM spaces WHERE users_ref = '#{session[:id]}'")
-    @space_ids = results.field_values("id") 
-    @space_names = results.field_values("name") # ["space1", "space2", ...]
-    @space_descriptions = results.field_values("description")
-    @space_prices = results.field_values("price")
-    @space_available = results.field_values("available")
+    new_space = Space.new
+    @results = new_space.list(session[:id])
     erb :user_home_page
   end
 

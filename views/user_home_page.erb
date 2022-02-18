@@ -4,20 +4,19 @@
 <br>
 Current spaces:
 
-<% if @space_names %>
+<% if @results %>
   <ul>
-
-    <% @space_names.each_with_index do |element, i| %>
-      <li><%= element%></li>
-      <li><%= @space_descriptions[i]%></li>
-      <li>£<%= @space_prices[i]%></li>
+    <% @results["ids"].each_with_index do |val , i| %>
+      <li><%= @results["names"][i] %></li>
+      <li><%= @results["descriptions"][i] %></li>
+      <li>£<%= @results["prices"][i] %></li>
       <form action="/add_new_date" method="post">
-        <input type="hidden" name="id" value = <%= @space_ids[i] %> >
+        <input type="hidden" name="id" value = <%= @results["ids"][i] %> >
         <input type="text" name ="date" >
         <input type="submit" name="submit" > <br>
       </form>
-      dates:
-      <li><%= @space_available[i]%></li><br>
+      Available Dates:
+      <li><%= @results["available"][i] %></li><br>
       <br>
     <% end %>
 
