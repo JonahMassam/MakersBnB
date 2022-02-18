@@ -1,5 +1,17 @@
 # MakersBnB - Specification and user stories.
 
+# Setup
+
+Run bundle
+Create a "makersbnb" and "makersbnb_test" database
+Run the commands in db/migrations to create the 2 required tables
+Run rspec
+Run app.rb
+Go to LocalHost:4567 ( http://127.0.0.1:4567/ )
+
+
+# User stories!
+
 1: Any signed-up user can list a new space.
 
 ```
@@ -78,5 +90,3 @@ As a host
 so that I can rent my space
 I would like my space to remain available until the request has been confirmed.
 ```
-
-8: Test user story
