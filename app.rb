@@ -85,6 +85,20 @@ class MakersBnB < Sinatra::Base
     connection.exec("UPDATE spaces SET available = array_append(available, '#{new_date}') WHERE id = '#{id}';")
     redirect "/user_home_page"
   end
+
+  get "/request_available_space" do
+    redirect "/login" unless session[:name]
+    request_date = params[:request_date]
+    if request_date
+      if !request_date.empty?
+        connection = db_connection()
+        results = connection.exec("SELECT name FROM spaces WHERE available @> '{#{request_date}}';")
+        @dates = results.field_values("name")
+      end
+    end
+    erb :request_available_space
+  end
+
   
 
   run! if app_file == $0
